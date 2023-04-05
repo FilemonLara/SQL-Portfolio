@@ -1,0 +1,88 @@
+-- Covid infections and deaths
+select Location, date, total_cases, new_cases, total_deaths, population
+from Portfolio.CovidDeaths
+
+-- Looking at total cases vs total deaths
+-- Shows the likelihood of dying if you contract Covid in your country
+select Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as death_percentage
+from Portfolio.CovidDeaths
+
+-- Looking at total cases vs population in US
+-- Shows what percentage of population got Covid in the US
+select Location, date, total_cases, population, (total_cases/population)*100 as population_infected
+from Portfolio.CovidDeaths
+where location = 'United States'
+
+-- Looking at countries with highest infection rate compared to population
+select Location, max(cast(total_cases as int)) as HighestInfectionCount, population, max((total_cases/population))*100 as population_infected
+from Portfolio.CovidDeaths
+group by location, population
+order by population_infected desc
+
+-- Let's break things down by continent
+select continent, max(cast(total_cases as int)) as HighestInfectionCount
+from CovidDeaths
+group by continent
+order by HighestInfectionCount desc
+
+-- Creating VIEW to store data for later visualizations
+Create View ContinentInfectionCount as
+select continent, max(cast(total_cases as int)) as HighestInfectionCount
+from CovidDeaths
+group by continent
+order by HighestInfectionCount desc
+
+-- Showing countries with highest death count per population
+select location, MAX(cast(total_deaths as int)) as TotalDeathCount
+from CovidDeaths
+where continent is not null
+group by location
+order by TotalDeathCount desc
+
+-- Showing continents with the highest death count per population
+select continent, max(cast(total_deaths as int)) as TotalDeathCount
+from CovidDeaths
+where continent is not null
+group by continent
+order by TotalDeathCount desc
+
+-- Global numbers by date
+select date, sum(new_cases) as total_cases, sum(cast(new_deaths as int)) as total_deaths, sum(cast(new_deaths as int))/sum(new_cases)*100 as death_percentage
+from Portfolio.CovidDeaths
+group by date
+
+
+--Covid Vaccinations
+-- Join example of Covid Deaths and CovidVaccination
+select *
+from CovidVaccinations vac
+join CovidDeaths dea
+on dea.location = vac.location and dea.date = vac.date
+
+-- Looking at total population vs vaccination
+-- Use CTE
+with PopVsVac (continent, location, date, popluation, new_vaccinations, RollingPeopleVaccinated) as
+(
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, sum(cast(vac.new_vaccinations as int)) over (partition by dea.location, dea.date) as RollingPeopleVaccinated
+from CovidVaccinations vac
+join CovidDeaths dea
+on dea.location = vac.location and dea.date = vac.date
+)
+select *, (RollingPeopleVaccinated/Population)*100 as total_vaccinated
+from PopVsVac
+
+-- TEMP TABLE
+Drop table if exists #PercentPopulationVaccinated
+Create table #PercentPopulationVaccinated
+(
+continent text, location text, date datetime, population numeric, new_vaccinations numeric, RollingPeopleVaccinated numeric
+)
+
+insert into #PercentPopulationVaccinated
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, sum(cast(vac.new_vaccinations as int)) over (partition by dea.location, dea.date) as RollingPeopleVaccinated
+from CovidVaccinations vac
+join CovidDeaths dea
+on dea.location = vac.location and dea.date = vac.date
+
+select *, (RollingPeopleVaccinated/Population)*100 as total_vaccinated
+from #PercentPopulationVaccinated
