@@ -53,8 +53,8 @@ from Portfolio.CovidDeaths
 group by date
 
 
---Covid Vaccinations
--- Join example of Covid Deaths and CovidVaccination
+-- Covid Vaccinations
+-- Join example of Covid Deaths and Covid Vaccination
 select *
 from CovidVaccinations vac
 join CovidDeaths dea
