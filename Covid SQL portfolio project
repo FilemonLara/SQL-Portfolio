@@ -1,3 +1,4 @@
+-- Data from https://ourworldindata.org/covid-deaths
 -- Covid infections and deaths
 select Location, date, total_cases, new_cases, total_deaths, population
 from Portfolio.CovidDeaths
