@@ -1,3 +1,4 @@
+-- Data from https://github.com/AlexTheAnalyst/PortfolioProjects
 select *
 from NashvilleHousing
 
