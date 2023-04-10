@@ -1,0 +1,45 @@
+-- Data from http://data.worldbank.org/indicator/EN.ATM.CO2E.PC and http://data.worldbank.org/indicator/EN.ATM.CO2E.KT both last updated 02/05/2016
+-- Multiple spreadsheets: totalpopulation, gdptotal, energydata, and CO2Dataset
+-- Want to look at data from 2000-2011
+-- Joining multiple spreadsheet into one
+select Emissions.Country_Name, Emissions.Year, Emissions.CO2_Per_Capita, EnergyData.Energy_use, TotalPopulation.Population_Total, gdptotal.current_GDP
+from Emissions
+join EnergyData on Emissions.Year = EnergyData.year and Emissions.Country_Name = EnergyData.Country
+join TotalPopulation on Emissions.Year = TotalPopulation.Year and Emissions.Country_Name = TotalPopulation.Country
+join gdptotal on Emissions.Year = gdptotal.year and Emissions.Country_Name = gdptotal.country
+
+-- Viewing the differences between CO2 vs CO2 of previous year
+select Year, CO2, lag(CO2) over (order by Year) as CO2_previous_year, (CO2 -  lag(CO2) over (order by Year)) as CO2_difference
+from Emissions
+group by Year
+
+-- Viewing total global CO2 emissions by region
+select Region, sum(CO2) as totalCO2
+from Emissions
+group by Region
+
+
+-- Data from https://data.world/makeovermonday/what-is-the-uks-favorite-chocolate-bar
+-- Popular chocolate bars among people 65+
+select *
+from ChocolateBars
+where Age_Group = '65+' and Rank is not null
+order by Rank desc
+
+-- Popular chocolate bars among people 35-44
+select *
+from ChocolateBars
+where Age_Group = '35-44' and Rank is not null
+order by Rank desc
+
+-- Popular chocolate bars among people 18-24
+select *
+from ChocolateBars
+where Age_Group = '18-24' and Rank is not null
+order by Rank desc
+
+-- Average ranking per brand
+select Brand, avg(Rank) as avg_rank
+from ChocolateBars
+group by Brand
+order by avg_rank desc
