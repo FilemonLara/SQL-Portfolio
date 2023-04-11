@@ -1,0 +1,162 @@
+-- A handful of projects and assignments on Khan Academy that display my SLQ skills
+-- First project: creating an online store and using the ORDER BY and SUM functions
+create table store (id integer primary key, item text, quantity integer, cost_price integer, sell_price integer);
+insert into store values (1, "mountain bikes", 10, 20, 100);
+insert into store values (2, "tshirt", 50, 5, 40);
+insert into store values (3, "TV", 10, 100, 400);
+insert into store values (4, "shoes", 50, 20, 70);
+insert into store values (5, "toilet paper", 100, 5, 25);
+insert into store values (6, "paint", 15, 2, 10);
+insert into store values (7, "jackets", 30, 20, 70);
+insert into store values (8, "notebooks", 70, 2, 6);
+insert into store values (9, "perfume", 20, 10, 90);
+insert into store values (10, "ice cream", 40, 1, 3);
+insert into store values (11, "blankets", 25, 10, 40);
+insert into store values (12, "pens", 50, 3, 7);
+insert into store values (13, "coat hangers", 20, 2, 6);
+insert into store values (14, "corn dogs", 40, 1, 5);
+insert into store values (15, "printer", 10, 30, 70);
+
+SELECT * FROM store order by quantity;
+
+select sum(cost_price) from store
+
+-- Second project: using a song list to display my knowledge of the AND and OR functions
+CREATE TABLE songs (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    artist TEXT,
+    mood TEXT,
+    duration INTEGER,
+    released INTEGER);
+    
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("Bohemian Rhapsody", "Queen", "epic", 60, 1975);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("Let it go", "Idina Menzel", "epic", 227, 2013);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("I will survive", "Gloria Gaynor", "epic", 198, 1978);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("Twist and Shout", "The Beatles", "happy", 152, 1963);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("La Bamba", "Ritchie Valens", "happy", 166, 1958);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("I will always love you", "Whitney Houston", "epic", 273, 1992);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("Sweet Caroline", "Neil Diamond", "happy", 201, 1969);
+INSERT INTO songs (title, artist, mood, duration, released)
+    VALUES ("Call me maybe", "Carly Rae Jepsen", "happy", 193, 2011);
+    
+SELECT title FROM songs;
+SELECT title FROM songs where mood= "epic" or released>1989;
+SELECT title FROM songs where mood = "epic" and released > 1989 and duration< 240;
+
+-- Third project: Using IN function to piece together data from subqueries
+CREATE TABLE artists (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    country TEXT,
+    genre TEXT);
+
+INSERT INTO artists (name, country, genre)
+    VALUES ("Taylor Swift", "US", "Pop");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Led Zeppelin", "US", "Hard rock");
+INSERT INTO artists (name, country, genre)
+    VALUES ("ABBA", "Sweden", "Disco");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Queen", "UK", "Rock");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Celine Dion", "Canada", "Pop");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Meatloaf", "US", "Hard rock");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Garth Brooks", "US", "Country");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Shania Twain", "Canada", "Country");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Rihanna", "US", "Pop");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Guns N' Roses", "US", "Hard rock");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Gloria Estefan", "US", "Pop");
+INSERT INTO artists (name, country, genre)
+    VALUES ("Bob Marley", "Jamaica", "Reggae");
+
+CREATE TABLE songs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    artist TEXT,
+    title TEXT);
+
+INSERT INTO songs (artist, title)
+    VALUES ("Taylor Swift", "Shake it off");
+INSERT INTO songs (artist, title)
+    VALUES ("Rihanna", "Stay");
+INSERT INTO songs (artist, title)
+    VALUES ("Celine Dion", "My heart will go on");
+INSERT INTO songs (artist, title)
+    VALUES ("Celine Dion", "A new day has come");
+INSERT INTO songs (artist, title)
+    VALUES ("Shania Twain", "Party for two");
+INSERT INTO songs (artist, title)
+    VALUES ("Gloria Estefan", "Conga");
+INSERT INTO songs (artist, title)
+    VALUES ("Led Zeppelin", "Stairway to heaven");
+INSERT INTO songs (artist, title)
+    VALUES ("ABBA", "Mamma mia");
+INSERT INTO songs (artist, title)
+    VALUES ("Queen", "Bicycle Race");
+INSERT INTO songs (artist, title)
+    VALUES ("Queen", "Bohemian Rhapsody");
+INSERT INTO songs (artist, title)
+    VALUES ("Guns N' Roses", "Don't cry");
+    
+select title from songs where artist = "Queen";
+select name from artists where genre = "Pop";
+
+select title from songs where artist IN (select name from artists where genre = "Pop")
+
+-- Fourth project; Using the HAVING function when other functions are in use
+CREATE TABLE books (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author TEXT,
+    title TEXT,
+    words INTEGER);
+    
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Philosopher's Stone", 79944);
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Chamber of Secrets", 85141);
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Prisoner of Azkaban", 107253);
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Goblet of Fire", 190637);
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Order of the Phoenix", 257045);
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Half-Blood Prince", 168923);
+INSERT INTO books (author, title, words)
+    VALUES ("J.K. Rowling", "Harry Potter and the Deathly Hallows", 197651);
+
+INSERT INTO books (author, title, words)
+    VALUES ("Stephenie Meyer", "Twilight", 118501);
+INSERT INTO books (author, title, words)
+    VALUES ("Stephenie Meyer", "New Moon", 132807);
+INSERT INTO books (author, title, words)
+    VALUES ("Stephenie Meyer", "Eclipse", 147930);
+INSERT INTO books (author, title, words)
+    VALUES ("Stephenie Meyer", "Breaking Dawn", 192196);
+    
+INSERT INTO books (author, title, words)
+    VALUES ("J.R.R. Tolkien", "The Hobbit", 95022);
+INSERT INTO books (author, title, words)
+    VALUES ("J.R.R. Tolkien", "Fellowship of the Ring", 177227);
+INSERT INTO books (author, title, words)
+    VALUES ("J.R.R. Tolkien", "Two Towers", 143436);
+INSERT INTO books (author, title, words)
+    VALUES ("J.R.R. Tolkien", "Return of the King", 134462);
+ 
+select author, sum(words) as total_words from books group by author having total_words > 1000000;
+
+select author, avg(words) as avg_words from books group by author having avg_words > 150000;
+
