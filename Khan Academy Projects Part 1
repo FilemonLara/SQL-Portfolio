@@ -21,6 +21,7 @@ SELECT * FROM store order by quantity;
 
 select sum(cost_price) from store
 
+
 -- Second project: using a song list to display my knowledge of the AND and OR functions
 CREATE TABLE songs (
     id INTEGER PRIMARY KEY,
@@ -50,6 +51,7 @@ INSERT INTO songs (title, artist, mood, duration, released)
 SELECT title FROM songs;
 SELECT title FROM songs where mood= "epic" or released>1989;
 SELECT title FROM songs where mood = "epic" and released > 1989 and duration< 240;
+
 
 -- Third project: Using IN function to piece together data from subqueries
 CREATE TABLE artists (
@@ -116,6 +118,7 @@ select name from artists where genre = "Pop";
 
 select title from songs where artist IN (select name from artists where genre = "Pop")
 
+
 -- Fourth project; Using the HAVING function when other functions are in use
 CREATE TABLE books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -159,4 +162,3 @@ INSERT INTO books (author, title, words)
 select author, sum(words) as total_words from books group by author having total_words > 1000000;
 
 select author, avg(words) as avg_words from books group by author having avg_words > 150000;
-
