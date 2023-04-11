@@ -1,3 +1,4 @@
+-- Projects to display my use of JOIN functions
 -- Project: using JOIN function to combine to datasets
 CREATE TABLE persons (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
