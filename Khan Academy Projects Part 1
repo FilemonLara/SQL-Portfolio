@@ -1,4 +1,4 @@
--- A handful of projects and assignments on Khan Academy that display my SLQ skills
+-- A handful of projects and assignments on Khan Academy that display my SQL skills
 -- First project: creating an online store and using the ORDER BY and SUM functions
 create table store (id integer primary key, item text, quantity integer, cost_price integer, sell_price integer);
 insert into store values (1, "mountain bikes", 10, 20, 100);
@@ -116,7 +116,14 @@ INSERT INTO songs (artist, title)
 select title from songs where artist = "Queen";
 select name from artists where genre = "Pop";
 
-select title from songs where artist IN (select name from artists where genre = "Pop")
+select title 
+from songs 
+where artist IN 
+(
+    select name 
+    from artists 
+    where genre = "Pop"
+ )
 
 
 -- Fourth project; Using the HAVING function when other functions are in use
