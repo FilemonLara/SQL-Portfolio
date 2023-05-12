@@ -3,7 +3,7 @@
 SELECT Genre1, count(Genre1) AS total_count
 FROM Movies
 GROUP BY Genre1
-ORDER BY total_count desc
+ORDER BY total_count DESC
 
 -- Using a CTE to filter the horror genre and order by release date
 WITH HorrorMovies AS
