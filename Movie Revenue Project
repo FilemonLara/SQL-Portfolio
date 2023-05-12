@@ -1,40 +1,40 @@
 -- Data from Google Data Analytics Certificate course
 -- Determining the most genre produced
-select Genre1, count(Genre1) as total_count
-from Movies
-group by Genre1
-order by total_count desc
+SELECT Genre1, count(Genre1) AS total_count
+FROM Movies
+GROUP BY Genre1
+ORDER BY total_count desc
 
 -- Using a CTE to filter the horror genre and order by release date
-with HorrorMovies as
+WITH HorrorMovies AS
 (
-select *
-from Movies
-where Genre1 = "Horror"
+SELECT *
+FROM Movies
+WHERE Genre1 = "Horror"
 )
 
-select Movie_Title, Release_Date
-from HorrorMovies
-order by Release_Date
+SELECT Movie_Title, Release_Date
+FROM HorrorMovies
+ORDER BY Release_Date
 
 -- Determining the average budget, average box office revenue, and average profit from each genre
-select Genre1, avg(budget), avg(Box_Office_Revenue), (avg(Box_Office_Revenue) - avg(Budget)) as profit
-from Movies
-group by Genre1
+SELECT Genre1, avg(budget), avg(Box_Office_Revenue), (avg(Box_Office_Revenue) - avg(Budget)) AS profit
+FROM Movies
+GROUP BY Genre1
 
 -- Looking at box office revenue based off of year
-select Release_Year, sum(Box_Office_Revenue), avg(Box_Office_Revenue), count(Box_Office_Revenue)
-from Movies
-group by Release_Year
+SELECT Release_Year, SUM(Box_Office_Revenue), AVG(Box_Office_Revenue), COUNT(Box_Office_Revenue)
+FROM Movies
+GROUP BY Release_Year
 
 -- Using CTE with the data to count the number of movies that made over $10M per year
-with Ten_Mill_Movies as
+WITH Ten_Mill_Movies AS
 (
-select Release_Year, Box_Office_Revenue
-from Movies
-where Box_Office_Revenue > 10000000
+SELECT Release_Year, Box_Office_Revenue
+FROM Movies
+WHERE Box_Office_Revenue > 10000000
 )
 
-select Release_Year, count(Box_Office_Revenue) as Over_Ten_Mill
-from Ten_Mill_Movies
-group by Release_Year
+SELECT Release_Year, COUNT(Box_Office_Revenue) AS Over_Ten_Mill
+FROM Ten_Mill_Movies
+GROUP BY Release_Year
